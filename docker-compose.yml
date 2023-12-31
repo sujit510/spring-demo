@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - mysql-data:/Users/sujitsingh/mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'mydb' # Replace with your database name
+      MYSQL_ROOT_PASSWORD: 'admin' # Root password
+    networks:
+      - spring-demo-network
+
+  spring-demo:
+    image: spring-demo
+    restart: always
+    command: /bin/sh -c "sleep 10 && java -jar app.jar"
+    container_name: spring-demo
+    ports:
+      - "8080:8080" # Assuming your Spring app runs on port 8080
+    depends_on:
+      - db
+    networks:
+      - spring-demo-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mydb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+
+networks:
+  spring-demo-network:
+    driver: bridge
+
+volumes:
+  mysql-data:

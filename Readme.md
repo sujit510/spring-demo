@@ -11,8 +11,12 @@
 #### Non-docker
 * Build
 ```./gradlew build```
-* Run (Skipping tests using ```-x test``` since failing)
-```./gradlew bootRun  -x test```
+* Run only tests
+```./gradlew test```
+* Run
+```./gradlew bootRun```
+* Run (If tests failing, skip tests using ```-x test``` since failing)
+```./gradlew bootRun -x test```
 
 #### Docker
 * Prepare image:
@@ -25,3 +29,6 @@
     ##### App
     ```docker build -t spring-demo .```
     <br/>```docker run --name spring-demo --network=spring-demo-network -p 8080:8080 spring-demo```
+
+### References
+1. Unit testing: https://spring.io/guides/gs/testing-web/

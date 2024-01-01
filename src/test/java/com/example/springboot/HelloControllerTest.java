@@ -3,24 +3,27 @@ package com.example.springboot;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.web.servlet.MockMvc;
+// For get and post
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.containsString;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest
+@AutoConfigureMockMvc
 class HelloControllerTest {
 
     @Autowired
     private HelloController controller;
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    private TestRestTemplate restTemplate;
+    private MockMvc mockMvc;
 
     @Test
     void contextLoads() throws Exception {
@@ -29,13 +32,17 @@ class HelloControllerTest {
 
     @Test
     void simpleGETAPIShouldReturnGreetingMessage() throws Exception {
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/",
-                String.class)).contains("Greetings from Spring Boot for GET!!!");
+        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Greetings from Spring Boot for GET!!!")));
     }
 
     @Test
     void simplePOSTAPIShouldReturnGreetingMessage() throws Exception {
-        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/", "{\"test\": \"Abc\"}",
-                String.class)).contains("Greetings from Spring Boot for POST with body::{\"test\": \"Abc\"}");
+        this.mockMvc.perform(
+                    post("/")
+                            .content("{\"test\": \"Abc\"}")
+                )
+                .andDo(print()).andExpect(status().isOk())
+                .andExpect(content().string("Greetings from Spring Boot for POST with body::{\"test\": \"Abc\"}"));
     }
 }

@@ -1,0 +1,50 @@
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+// Rule section
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                counter = 'CLASS'
+                minimum = 0.20
+            }
+        }
+        rule {
+            limit {
+                counter = 'METHOD'
+                minimum = 0.20
+            }
+        }
+        rule {
+            limit {
+                counter = 'BRANCH'
+                minimum = 0.20
+            }
+        }
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.20
+            }
+        }
+        rule {
+            limit {
+                counter = 'INSTRUCTION'
+                minimum = 0.20
+            }
+        }
+        rule {
+            limit {
+                counter = 'COMPLEXITY'
+                minimum = 0.20
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification

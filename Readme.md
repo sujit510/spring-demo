@@ -3,12 +3,15 @@
 ### Features
 1. Vehicle CRUD using MySQL DB
 2. Employee CRUD using Postgres DB (Coming Soon)
+3. Student CRUD using MongoDB (Coming soon)
+4. All above with DB transactions
+5. Test cases (Coming soon)
 
 ### How to start the app
 #### Non-docker
 * Build
 ```./gradlew build```
-* Run
+* Run (Skipping tests using ```-x test``` since failing)
 ```./gradlew bootRun  -x test```
 
 #### Docker

@@ -15,7 +15,10 @@ public class VehicleService {
     }
     
     public Vehicle addVehicle(Vehicle vehicle) {
-      return repository.save(vehicle);
+        if (!vehicle.getWheels().matches("\\d+")) {
+            throw new RuntimeException("Wheels should be number, received: " + vehicle.getWheels());
+        }
+        return repository.save(vehicle);
     }
 
     public Vehicle updateVehicle(String name, Vehicle updatedVehicle) {
@@ -24,7 +27,7 @@ public class VehicleService {
           existingVehicle.setWheels(updatedVehicle.getWheels());
           // More updates as needed
           return repository.save(existingVehicle);
-      }).orElseThrow(() -> new RuntimeException("Vehicle with name " + name + " not found99999999"));
+      }).orElseThrow(() -> new RuntimeException("Vehicle with name " + name + " not found"));
     }
 
     public void deleteVehicle(String name) {

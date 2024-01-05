@@ -28,6 +28,10 @@ public class Vehicle {
 
   // Setter for name
   public void setWheels(String wheels) {
+    if (wheels.matches("\\d+")) {
       this.wheels = wheels;
+    } else {
+      throw new RuntimeException("Wheels should be number, received: " + wheels);
+    }
   }
 }

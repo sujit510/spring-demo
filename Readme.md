@@ -30,5 +30,9 @@
     ```docker build -t spring-demo .```
     <br/>```docker run --name spring-demo --network=spring-demo-network -p 8080:8080 spring-demo```
 
+### Troubleshooting:
+1. If getting error as ```IllegalStateException```, check if DB is running
+2. 
+
 ### References
 1. Unit testing: https://spring.io/guides/gs/testing-web/
